@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Image Gallery</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+  h1 { text-align: center; }
+  #search, #categorySelect { padding: 10px; margin: 10px 5px; }
+  .gallery { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .gallery img { width: 150px; border-radius: 8px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<h1>Image Gallery</h1>
+<input type="text" id="search" placeholder="Search images..." />
+<select id="categorySelect">
+  <option value="">All Categories</option>
+  <option value="nature">Nature</option>
+  <option value="city">City</option>
+  <option value="animals">Animals</option>
+</select>
+
+<div class="gallery" id="gallery"></div>
+
+<script>
+  const images = [
+    { src: 'https://placeimg.com/150/150/nature', category: 'nature' },
+    { src: 'https://placeimg.com/151/150/city', category: 'city' },
+    { src: 'https://placeimg.com/152/150/animals', category: 'animals' },
+    { src: 'https://placeimg.com/153/150/nature', category: 'nature' },
+    { src: 'https://placeimg.com/154/150/city', category: 'city' },
+    { src: 'https://placeimg.com/155/150/animals', category: 'animals' },
+    { src: 'https://placeimg.com/156/150/nature', category: 'nature' }
+  ];
+
+  const galleryDiv = document.getElementById('gallery');
+  const searchInput = document.getElementById('search');
+  const categorySelect = document.getElementById('categorySelect');
+
+  function renderGallery() {
+    const query = searchInput.value.toLowerCase();
+    const category = categorySelect.value;
+    galleryDiv.innerHTML = '';
+    images
+      .filter(img => 
+        (category === '' || img.category === category) &&
+        img.category.includes(query)
+      )
+      .forEach(img => {
+        const imgEl = document.createElement('img');
+        imgEl.src = img.src;
+        imgEl.alt = img.category;
+        galleryDiv.appendChild(imgEl);
+      });
+  }
+
+  searchInput.oninput = renderGallery;
+  categorySelect.onchange = renderGallery;
+
+  renderGallery();
+</script>
+
+</body>
+</html>

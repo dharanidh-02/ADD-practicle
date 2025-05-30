@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Movie Search</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; max-width: 700px; margin: auto; }
+  h1 { text-align: center; }
+  input, button { padding: 10px; font-size: 1rem; margin: 5px 0; width: 100%; box-sizing: border-box; }
+  #results { margin-top: 20px; }
+  .movie { border-bottom: 1px solid #ccc; padding: 10px 0; display: flex; }
+  .poster { width: 100px; margin-right: 20px; }
+  .poster img { width: 100%; }
+  .details { flex: 1; }
+  .title { font-size: 1.2rem; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>Movie Search</h1>
+<input type="text" id="search" placeholder="Enter movie title" />
+<button id="searchBtn">Search</button>
+
+<div id="results"></div>
+
+<script>
+  const apiKey = 'YOUR_OMDB_API_KEY'; // Get free key from http://www.omdbapi.com/apikey.aspx
+  const searchBtn = document.getElementById('searchBtn');
+  const searchInput = document.getElementById('search');
+  const resultsDiv = document.getElementById('results');
+
+  searchBtn.onclick = () => {
+    const query = searchInput.value.trim();
+    if (!query) {
+      alert('Please enter a movie title');
+      return;
+    }
+    resultsDiv.innerHTML = 'Loading...';
+
+    fetch(`https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(query)}`)
+      .then(res => res.json())
+      .then(data => {
+        if(data.Response === "False") {
+          resultsDiv.textContent = data.Error;
+          return;
+        }
+        resultsDiv.innerHTML = '';
+        data.Search.forEach(movie => {
+          const div = document.createElement('div');
+          div.classList.add('movie');
+          div.innerHTML = `
+            <div class="poster">
+              <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/100x150?text=No+Image'}" alt="Poster" />
+            </div>
+            <div class="details">
+              <div class="title">${movie.Title} (${movie.Year})</div>
+              <button onclick="getDetails('${movie.imdbID}')">Details</button>
+              <div id="detail-${movie.imdbID}"></div>
+            </div>
+          `;
+          resultsDiv.appendChild(div);
+        });
+      });
+  };
+
+  function getDetails(id) {
+    const detailDiv = document.getElementById(`detail-${id}`);
+    detailDiv.textContent = 'Loading details...';
+    fetch(`https://www.omdbapi.com/?apikey=${apiKey}&i=${id}&plot=short`)
+      .then(res => res.json())
+      .then(data => {
+        if(data.Response === "False") {
+          detailDiv.textContent = data.Error;
+          return;
+        }
+        detailDiv.innerHTML = `
+          <p><strong>Genre:</strong> ${data.Genre}</p>
+          <p><strong>Director:</strong> ${data.Director}</p>
+          <p><strong>Plot:</strong> ${data.Plot}</p>
+        `;
+      });
+  }
+</script>
+
+</body>
+</html>

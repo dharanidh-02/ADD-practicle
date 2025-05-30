@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simple Blog</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 700px; margin: 20px auto; background: #fff; padding: 20px; }
+  h1 { text-align: center; }
+  input[type="text"] { width: 100%; padding: 8px; margin-bottom: 20px; font-size: 1rem; }
+  .post { border-bottom: 1px solid #ddd; margin-bottom: 10px; padding-bottom: 10px; }
+  .post h2 { margin: 0; }
+</style>
+</head>
+<body>
+  <h1>My Blog</h1>
+  <input type="text" id="searchInput" placeholder="Search posts..." />
+  <div id="posts"></div>
+
+  <script>
+    const posts = [
+      {title: "Learning JavaScript", content: "JavaScript is a versatile language."},
+      {title: "CSS Tips", content: "Use Flexbox for layout."},
+      {title: "HTML Basics", content: "HTML is the backbone of the web."},
+      {title: "Web Development", content: "Building websites is fun!"},
+      {title: "React vs Vue", content: "Both are popular frameworks."}
+    ];
+    const postsDiv = document.getElementById('posts');
+    const searchInput = document.getElementById('searchInput');
+
+    function renderPosts(filter = '') {
+      postsDiv.innerHTML = '';
+      posts.filter(p => p.title.toLowerCase().includes(filter.toLowerCase()) || p.content.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(p => {
+          const div = document.createElement('div');
+          div.className = 'post';
+          div.innerHTML = `<h2>${p.title}</h2><p>${p.content}</p>`;
+          postsDiv.appendChild(div);
+        });
+    }
+
+    searchInput.addEventListener('input', () => renderPosts(searchInput.value));
+
+    renderPosts();
+  </script>
+</body>
+</html>

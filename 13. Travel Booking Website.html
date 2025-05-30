@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Travel Booking</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+  h1 { text-align: center; }
+  .destination { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 8px; }
+  form { border: 1px solid #ccc; padding: 15px; border-radius: 8px; }
+  input, select, button { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+</style>
+</head>
+<body>
+
+<h1>Travel Booking</h1>
+
+<div class="destination">
+  <h2>Paris, France</h2>
+  <p>Explore the city of lights, famous for its culture, art, and cuisine.</p>
+</div>
+
+<div class="destination">
+  <h2>Bali, Indonesia</h2>
+  <p>Enjoy beautiful beaches, tropical weather, and vibrant culture.</p>
+</div>
+
+<form id="bookingForm">
+  <h2>Book Your Trip</h2>
+  <label for="destination">Destination:</label>
+  <select id="destination" required>
+    <option value="">Select</option>
+    <option value="Paris, France">Paris, France</option>
+    <option value="Bali, Indonesia">Bali, Indonesia</option>
+  </select>
+  <label for="name">Full Name:</label>
+  <input type="text" id="name" placeholder="Your name" required />
+  <label for="email">Email:</label>
+  <input type="email" id="email" placeholder="Your email" required />
+  <label for="date">Travel Date:</label>
+  <input type="date" id="date" required />
+  <button type="submit">Book Now</button>
+</form>
+
+<script>
+  const form = document.getElementById('bookingForm');
+  form.onsubmit = e => {
+    e.preventDefault();
+    alert(`Booking confirmed for ${form.name.value} to ${form.destination.value} on ${form.date.value}`);
+    form.reset();
+  };
+</script>
+
+</body>
+</html>

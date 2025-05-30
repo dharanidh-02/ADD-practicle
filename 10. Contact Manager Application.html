@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact Manager</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+  h1 { text-align: center; }
+  input, button { padding: 8px; margin: 5px 0; width: 100%; box-sizing: border-box; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  button.edit, button.delete { width: 60px; margin-right: 5px; }
+</style>
+</head>
+<body>
+
+<h1>Contact Manager</h1>
+
+<input type="text" id="name" placeholder="Name" />
+<input type="text" id="phone" placeholder="Phone" />
+<button id="addBtn">Add Contact</button>
+
+<table>
+  <thead>
+    <tr><th>Name</th><th>Phone</th><th>Actions</th></tr>
+  </thead>
+  <tbody id="contactList"></tbody>
+</table>
+
+<script>
+  let contacts = [];
+  let editIndex = -1;
+
+  const nameInput = document.getElementById('name');
+  const phoneInput = document.getElementById('phone');
+  const addBtn = document.getElementById('addBtn');
+  const contactList = document.getElementById('contactList');
+
+  function render() {
+    contactList.innerHTML = '';
+    contacts.forEach((c, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${c.name}</td>
+        <td>${c.phone}</td>
+        <td>
+          <button class="edit" onclick="editContact(${i})">Edit</button>
+          <button class="delete" onclick="deleteContact(${i})">Delete</button>
+        </td>
+      `;
+      contactList.appendChild(tr);
+    });
+  }
+
+  addBtn.onclick = () => {
+    const name = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    if (!name || !phone) {
+      alert('Enter both name and phone');
+      return;
+    }
+    if (editIndex === -1) {
+      contacts.push({ name, phone });
+    } else {
+      contacts[editIndex] = { name, phone };
+      editIndex = -1;
+      addBtn.textContent = 'Add Contact';
+    }
+    nameInput.value = '';
+    phoneInput.value = '';
+    render();
+  };
+
+  function editContact(i) {
+    nameInput.value = contacts[i].name;
+    phoneInput.value = contacts[i].phone;
+    editIndex = i;
+    addBtn.textContent = 'Update Contact';
+  }
+
+  function deleteContact(i) {
+    contacts.splice(i, 1);
+    render();
+  }
+
+  render();
+</script>
+
+</body>
+</html>

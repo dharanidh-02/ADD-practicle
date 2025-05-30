@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Recipe Book</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 700px; margin: auto; padding: 20px; }
+  h1 { text-align: center; }
+  .recipe { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 8px; }
+  .recipe h2 { margin-top: 0; }
+  button { cursor: pointer; padding: 8px 12px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h1>Recipe Book</h1>
+<div id="recipes"></div>
+
+<script>
+  const recipes = [
+    {
+      title: 'Spaghetti Carbonara',
+      ingredients: ['Spaghetti', 'Eggs', 'Parmesan cheese', 'Pancetta', 'Black pepper'],
+      instructions: 'Cook spaghetti. Mix eggs and cheese. Fry pancetta. Combine all with pepper.'
+    },
+    {
+      title: 'Classic Pancakes',
+      ingredients: ['Flour', 'Milk', 'Eggs', 'Sugar', 'Baking powder', 'Salt'],
+      instructions: 'Mix dry and wet ingredients separately. Combine. Cook on griddle.'
+    },
+    {
+      title: 'Guacamole',
+      ingredients: ['Avocados', 'Lime', 'Onion', 'Tomatoes', 'Salt', 'Cilantro'],
+      instructions: 'Mash avocados. Mix all ingredients. Serve fresh.'
+    }
+  ];
+
+  const recipesDiv = document.getElementById('recipes');
+
+  recipes.forEach((recipe, idx) => {
+    const div = document.createElement('div');
+    div.classList.add('recipe');
+    div.innerHTML = `
+      <h2>${recipe.title}</h2>
+      <button onclick="toggleDetails(${idx})">Show Ingredients & Instructions</button>
+      <div id="details-${idx}" style="display:none; margin-top:10px;">
+        <h3>Ingredients:</h3>
+        <ul>${recipe.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+        <h3>Instructions:</h3>
+        <p>${recipe.instructions}</p>
+      </div>
+    `;
+    recipesDiv.appendChild(div);
+  });
+
+  function toggleDetails(idx) {
+    const details = document.getElementById(`details-${idx}`);
+    details.style.display = details.style.display === 'none' ? 'block' : 'none';
+  }
+</script>
+
+</body>
+</html>

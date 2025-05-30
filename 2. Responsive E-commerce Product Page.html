@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Product Page</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; background:#f7f7f7;}
+  .container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+  .product-img { width: 100%; max-height: 400px; object-fit: contain; }
+  h1 { margin-bottom: 0; }
+  .price { color: green; font-size: 1.5rem; margin: 10px 0; }
+  button { background: #4CAF50; border: none; color: white; padding: 10px 20px; cursor: pointer; font-size: 1rem; border-radius: 5px; }
+  button:hover { background: #45a049; }
+  @media(max-width:600px) { .container { padding: 10px; } }
+</style>
+</head>
+<body>
+  <div class="container">
+    <img class="product-img" src="https://via.placeholder.com/600x400" alt="Product Image" />
+    <h1>Awesome Product</h1>
+    <p>High quality product that solves your problems and looks great.</p>
+    <div class="price">$49.99</div>
+    <button id="addCartBtn">Add to Cart</button>
+    <p id="msg" style="color: green; margin-top: 10px;"></p>
+  </div>
+
+  <script>
+    const btn = document.getElementById('addCartBtn');
+    const msg = document.getElementById('msg');
+    btn.addEventListener('click', () => {
+      msg.textContent = 'Product added to cart!';
+      setTimeout(() => { msg.textContent = ''; }, 2000);
+    });
+  </script>
+</body>
+</html>
